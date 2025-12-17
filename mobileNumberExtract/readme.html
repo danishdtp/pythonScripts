@@ -1,0 +1,121 @@
+<h1 id="mobile-number-extractor-script">Mobile Number Extractor
+Script</h1>
+<p>For Windows and Linux</p>
+<h2 id="description">🛠️ Description</h2>
+<p>Mobile Number extractor script created in Python which extracts 10
+digit mobile number from copied text in clipboard. The script is created
+using regular expressions (regex) which enables super fast execution
+even when text size is big. The script is created with the aim to create
+a local application which could find and extract mobile number quickly
+from clipboard without using internet. Scripts executes in following
+steps:</p>
+<ul>
+<li>The script first matches exact mobile numbers starting with 6,7,8
+and 9. </li>
+<li>If no exact matches are found it then extracts any 10 digit
+number.<br />
+</li>
+<li>If no 10 digit number is found, console shows No mobile number
+found.<br />
+</li>
+<li>This script has been packaged to run on Windows as well as on linux
+directly.</li>
+</ul>
+<h2 id="languages-or-frameworks-used">⚙️ Languages or Frameworks
+Used</h2>
+<p>The script is supplied in an executable format with dependencies
+packaged into one for ease of use. The script primarily uses pyperclip
+for copy paste controls and re for regular expression.<br />
+If you are running source file, you need to install pyperclip alongwith
+python3. To install pyperclip using pip use following command.<br />
+</p>
+<p><code>pip install pyperclip</code></p>
+<h2 id="how-to-run">💾How to run:</h2>
+<h3 id="for-windows">For Windows</h3>
+<ol type="1">
+<li>First copy the text that contains the mobile number. It can either
+be anything plain text, csv, tsv or text in docx, xlsx, pptx, browser
+anywhere.<br />
+</li>
+<li>Now Download and run <code>mobileNumExtract.exe</code> file<br />
+</li>
+<li>The script will extract mobile numbers from the copied text in
+clipboard and copy the extracted mobile numbers back into the
+clipboard.<br />
+</li>
+<li>Paste the extracted mobile numbers anywhere you want.</li>
+</ol>
+<h3 id="for-linux">For Linux</h3>
+<p>The binary for linux is available as
+<code>mobilenumExtractLinux</code><br />
+Now, the steps are same, first copy the text, run binary either by
+double clicking it in file manager or typing<br />
+<code>./mobileNumExtractLinux</code><br />
+The script will find all mobile numbers and copy it into clipboard.
+Paste the extracted number where you require<br />
+</p>
+<h3 id="source-file">Source file</h3>
+<ol type="1">
+<li>First clone the repository<br />
+<code>git clone https://openforge.gov.in/plugins/git/mobile-number-extractor/mobileNumExtract.git</code><br />
+</li>
+<li>Now go to the project directory<br />
+<code>cd mobileNumExtract</code><br />
+</li>
+<li>To run the script in python go to and run following in
+terminal:<br />
+<code>python mobileNumExtract.py</code><br />
+</li>
+<li>To access source code, open python file in any editor or IDE. I use
+vim editor in terminal, for this use following command
+<code>vim mobileNumExtract.py</code><br />
+</li>
+<li>In this file you can see the source code and logic used for the
+script.</li>
+</ol>
+<h2 id="sample-file-to-test-the-script">📁Sample file to test the
+script</h2>
+<p>The project contains an xlsx file named
+‘sample10digitMobileNumer.xlsx’ which has random 10 digit numbers in
+first column A1. Copy the first column and run the programs as shown in
+above steps.<br />
+Now paste into the column B at B2, the pasted numbers should be similar
+to column C. If it’s similar it means the program is executed
+correctly.<br />
+Notice that script excluded number starting from 1 to 5. However if
+there are no numbers starting with 6 to 9, script will extract all 10
+digit numbers</p>
+<h2 id="project-structure">🏗 Project structure</h2>
+<p>.<br />
+├── LICENSE.txt<br />
+├── mobileNumExtract.exe &lt;– Executable file for windows<br />
+├── mobileNumExtractLinux &lt;– Executable binary for Linux<br />
+├── mobileNumExtract.py &lt;– Source file<br />
+├── README.html &lt;– Readme<br />
+├── README.md<br />
+├── requirement.txt &lt;– requirement file<br />
+├── sample10digitMobileNumber.xlsx &lt;– sample file for testing<br />
+├── src &lt;– source directory for linux build<br />
+│   ├── build<br />
+│   │   └── mobileNumExtract<br />
+│   ├── dist<br />
+│   │   └── mobileNumExtract<br />
+│   ├── mobileNumExtract.py<br />
+│   └── mobileNumExtract.spec<br />
+└── srcWindows &lt;– source directory for Windows build<br />
+├── build<br />
+│   └── mobileNumExtract<br />
+├── dist<br />
+│   └── mobileNumExtract<br />
+└─── mobileNumExtract.spec<br />
+</p>
+<h2 id="other-modification-ideas">💡 Other modification ideas:</h2>
+<p>The script only extracts text copied into a clipboard, this is by
+design as many other similar software are available for extracting
+mobile numbers, however if it’s required to extract mobile numbers from
+dataset file (xlsx,csv,parquet etc.) and output in another file,
+appropriate modifications in source file mobileNumExtract.py can be done
+through the use of appropriate libraries like pandas, openpyxl, pyarrow,
+dask, polars etc.</p>
+<h2 id="author">🧑‍💻 Author</h2>
+<p>Danish Khan, Junior Supply Officer, Khandwa</p>
