@@ -4,3 +4,4 @@ __pycache__/
 *.pyo
 .env
 # Other files or directories you want to ignore...
+scriptArchives/
