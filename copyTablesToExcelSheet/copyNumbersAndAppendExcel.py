@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-append_8digit_to_sheet2.py
+copyNumbersAndAppendExcel.py
 - Reads text from the system clipboard
 - Finds all distinct 8-digit numbers
 - Appends them (one per row) to Sheet2 of the specified Excel .xlsx file
