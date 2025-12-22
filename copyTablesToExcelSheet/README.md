@@ -3,7 +3,8 @@
 For Windows and Linux
 
 ## 🛠️ Description
-
+This script finds all the 8 digit numbers in the copied text and pastes them into the excel sheet. The digit numbers can be changed according to the requirement. It is useful for works where you quickly need to extract numbers from the table, usually online portal and paste them into excel\
+With this script you won't even need to have Spreadsheet program installed let alone open the excel or other spreadsheet program. You only need to specify the location of excel file\
 Scripts executes in following steps:
 - Reads text from the system clipboard
 - Finds all distinct 8-digit numbers
@@ -19,6 +20,9 @@ The scripts uses re,sys,pyperclip,openpyxl,openpyxl.utils. To install pyperclip 
     To run the file go to the directory containing the script file 
 copyNumbersAndAppendExcel.py and run following commands.\
     `python copyNumbersAndAppendExcel.py /path/to/file.xlsx`\
+It is worth noting that we the script has two conditions that can be modified 
+    1. The sheet name is fixed to Sheet2, if you want to paste into a specific sheet, write it's name, if name contains space cover it in quotes like 'Sheet 1'
+    2. The digits of number are fixed with 8 using regular expression, you can use any kind of regular expressions to match your data.
 
 ## 📁Sample file to test the script
 The project contains an xlsx file named 'sampleAppendSheet.xlsx' into which you can insert following 8 digit random numbers. Just copy the following numbers and run script as above changing path to that of sdownloaded xls file location (usually Downloads)
@@ -143,125 +147,8 @@ The project contains an xlsx file named 'sampleAppendSheet.xlsx' into which you 
 69226711	\
 71417176	\
 86529376	\
-69179926	\
-71815033	\
-93469404	\
-88950363	\
-91900537	\
-86535560	\
-77938760	\
-79526987	\
-74531552	\
-68061386	\
-88974634	\
-85314122	\
-90111652	\
-70136491	\
-96463551	\
-82464238	\
-72643802	\
-81311368	\
-78452556	\
-72361882	\
-67585546	\
-71774238	\
-84877145	\
-97859281	\
-82909199	\
-65084762	\
-77176388	\
-79096878	\
-74539953	\
-66923552	\
-83016323	\
-80758024	\
-98210431	\
-66338991	\
-68560751	\
-77961083	\
-93014940	\
-84790509	\
-88438156	\
-79856002	\
-80563986	\
-93177640	\
-84827029	\
-70713501	\
-71448541	\
-65725443	\
-66139115	\
-88371094	\
-67861300	\
-90774895	\
-74132240	\
-73682686	\
-85753343	\
-72143242	\
-80989098	\
-89397987	\
-90223864	\
-97974151	\
-79864708	\
-64271730	\
-69320863	\
-67576416	\
-95203572	\
-70313942	\
-73363422	\
-77983250	\
-70001240	\
-65096030	\
-73151703	\
-89468469	\
-86429133	\
-93020998	\
-95103945	\
-82790022	\
-93898962	\
-83215826	\
-78236244	\
-78283800	\
-66823960	\
-67463226	\
-73293399	\
-72250527	\
-69482797	\
-78199643	\
-86872800	\
-97873178	\
-94016365	\
-95636368	\
-92180015	\
-75992316	\
-91530505	\
-68222224	\
-72730161	\
-89808401	\
-90949761	\
-85572786	\
-75211202	\
-86661309	\
-79476078	\
-67914643	\
-98249850	\
-72581377	\
-94462725	\
-85810242	\
-83642083	\
-80808536	\
-82369288	\
-75198930	\
-76853636	\
-68214099	\
-92824889	\
-88836941	\
-94782179	\
-89409800	\
-73325253	\
-95213781	\
-75771248	\
-66802137	\
-89583944	\
+6917937	\
+89583	\
 
 ## 🏗 Project structure
 
