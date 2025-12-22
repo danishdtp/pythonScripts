@@ -1,6 +1,5 @@
 
-# Mobile Number Extractor Script
-For Windows and Linux
+# Copy Table Data To Excel Sheet (all 8 digit numbers in tables)
 
 ## 🛠️ Description
 This script finds all the 8 digit numbers in the copied text and pastes them into the excel sheet. The digit numbers can be changed according to the requirement. It is useful for works where you quickly need to extract numbers from the table, usually online portal and paste them into excel\
