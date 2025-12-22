@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+"""
+append_8digit_to_sheet2.py
+- Reads text from the system clipboard
+- Finds all distinct 8-digit numbers
+- Appends them (one per row) to Sheet2 of the specified Excel .xlsx file
+Usage:
+    python append_8digit_to_sheet2.py /path/to/file.xlsx
+"""
+
+import re
+import sys
+from pathlib import Path
+
+import pyperclip
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+
+
+def find_8_digit_numbers(text):
+    # match standalone or within other characters but ensure exactly 8 consecutive digits, change 8 to any number text you want
+    return re.findall(r"(?<!\d)(\d{8})(?!\d)", text)
+
+
+def append_to_sheet2(xlsx_path, values):
+    xlsx = Path(xlsx_path)
+    if not xlsx.exists():
+        raise FileNotFoundError(f"File not found: {xlsx_path}")
+    wb = load_workbook(filename=str(xlsx))
+    # ensure Sheet2 exists (create if not)
+    if "Sheet2" in wb.sheetnames:
+        ws = wb["Sheet2"]
+    else:
+        ws = wb.create_sheet("Sheet2")
+    # find first empty row after existing data (append)
+    start_row = ws.max_row + 1 if any(tuple(ws.iter_rows(min_row=1, max_row=1))) else 1
+    for i, val in enumerate(values, start=start_row):
+        ws.cell(row=i, column=1, value=val)
+    wb.save(str(xlsx))
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python append_8digit_to_sheet2.py /path/to/file.xlsx")
+        sys.exit(1)
+    xlsx_path = sys.argv[1]
+    text = pyperclip.paste()
+    if not text:
+        print("Clipboard is empty.")
+        sys.exit(1)
+    found = find_8_digit_numbers(text)
+    if not found:
+        print("No 8-digit numbers found in clipboard text.")
+        sys.exit(0)
+    # keep order and remove duplicates while preserving order
+    seen = set()
+    unique = [x for x in found if not (x in seen or seen.add(x))]
+    append_to_sheet2(xlsx_path, unique)
+    print(f"Appended {len(unique)} value(s) to Sheet2 of {xlsx_path}.")
+
+
+if __name__ == "__main__":
+    main()
