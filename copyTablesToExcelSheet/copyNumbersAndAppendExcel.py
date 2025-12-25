@@ -11,7 +11,7 @@ Usage:
 import re
 import sys
 from pathlib import Path
-
+import time
 import pyperclip
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
@@ -23,7 +23,11 @@ def find_8_digit_numbers(text):
 
 
 def find_name_of_sheet(text):
-    return re.search(r"Transaction Details for FPS \d{7}\b", text)
+    find = re.search(r"Transaction Details for FPS \d{7}\b", text)
+    if find:
+        return find.group()
+    else:
+        return "no match found"
 
 
 def append_to_sheet2(xlsx_path, values):
@@ -57,12 +61,15 @@ def main():
         print("No 8-digit numbers found in clipboard text.")
         sys.exit(0)
     # keep order and remove duplicates while preserving order
+    start_time = time.perf_counter()
     seen = set()
+    print(find_name_of_sheet(text))
     unique = [x for x in found if not (x in seen or seen.add(x))]
     append_to_sheet2(xlsx_path, unique)
-    fps = find_name_of_sheet(text)
-    print(fps.group())
     print(f"Appended {len(unique)} value(s) to Sheet2 of {xlsx_path}.")
+    end = time.perf_counter()
+    duration = -start_time + end
+    print(f"Time taken  : {duration:.1f} seconds")
 
 
 if __name__ == "__main__":
