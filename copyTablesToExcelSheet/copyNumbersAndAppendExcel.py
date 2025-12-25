@@ -22,6 +22,10 @@ def find_8_digit_numbers(text):
     return re.findall(r"(?<!\d)(\d{8})(?!\d)", text)
 
 
+def find_name_of_sheet(text):
+    return re.search(r"Transaction Details for FPS \d{7}\b", text)
+
+
 def append_to_sheet2(xlsx_path, values):
     xlsx = Path(xlsx_path)
     if not xlsx.exists():
@@ -56,6 +60,8 @@ def main():
     seen = set()
     unique = [x for x in found if not (x in seen or seen.add(x))]
     append_to_sheet2(xlsx_path, unique)
+    fps = find_name_of_sheet(text)
+    print(fps.group())
     print(f"Appended {len(unique)} value(s) to Sheet2 of {xlsx_path}.")
 
 
