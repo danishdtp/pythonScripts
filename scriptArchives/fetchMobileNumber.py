@@ -28,7 +28,6 @@ def process_eight_digit_numbers(df, cells):
     total_count = len(df)
     print("Total : ", total_count)
     count = 0
-    start_time = time.perf_counter()
     for index, col, value in cells:
         # 1) Copy the 8-digit number to clipboard
         count += 1
@@ -77,21 +76,11 @@ def process_eight_digit_numbers(df, cells):
             found_number = match.group(0)
             # Add the found digit number into a new column in the DataFrame
             df.loc[index, "Mobile_Number"] = found_number
-            print(f"{count}/{total_count} - {value},  - {found_number}")
-        elif "Details not found for RC" in copied_text:
-            print(f"RC Number {value} is not valid")
+            print(value, " - ", found_number)
         else:
             df.loc[index, "Mobile_Number"] = None
-            print(f"{count}/{total_count} - {value},  - NA")
+            print(value, " - NA")
 
-        one_time = time.perf_counter()
-        global estimate
-        if count == 1:
-            estimate = (one_time - start_time) * total_count
-            print(f"Estimated time : {estimate / 60:.1f},minutes")
-        else:
-            remaining_time = estimate - (one_time - start_time)
-            print(f"Remaining time : {remaining_time / 60:.1f},minutes")
     return df
 
 

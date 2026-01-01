@@ -17,6 +17,7 @@ def find_eight_digit_cells(df):
     for index, row in df.iterrows():
         for col in df.columns:
             value = str(row[col])  # Convert to string for checking
+            value = value.split(".")[0]
             if len(value) == 8 and value.isdigit():
                 eight_digit_cells.append((index, col, value))
     return eight_digit_cells
@@ -24,8 +25,13 @@ def find_eight_digit_cells(df):
 
 # Step 3: Process each 8-digit number and perform required actions
 def process_eight_digit_numbers(df, cells):
+    total_count = len(df)
+    print("Total : ", total_count)
+    count = 0
+    start_time = time.perf_counter()
     for index, col, value in cells:
         # 1) Copy the 8-digit number to clipboard
+        count += 1
         pyperclip.copy(value)
         # 2) Open a website (URL needs to be specified)
         web_url = (
@@ -37,9 +43,11 @@ def process_eight_digit_numbers(df, cells):
         pyautogui.press("enter")
 
         # Wait for the page to load (you may need to adjust this)
-        time.sleep(1)
+        time.sleep(1.5)
         pyautogui.click(x=1042, y=311)  # Replace with actual coordinates
         # 3) Paste value in a search field using pyautogui
+        time.sleep(0.2)
+        pyautogui.click(x=1042, y=311)  # Replace with actual coordinates
         time.sleep(0.2)
         pyautogui.hotkey("ctrl", "v")
         time.sleep(0.3)
@@ -67,10 +75,25 @@ def process_eight_digit_numbers(df, cells):
             found_number = match.group(0)
             # Add the found 7-digit number into a new column in the DataFrame
             df.loc[index, "7_digit_found"] = found_number
-            print("found", found_number)
+            print(
+                count,
+                ")",
+                value,
+                " - ",
+            )
+            print(f"{count}/{total_count} - {value},  - {found_number}")
         else:
             df.loc[index, "7_digit_found"] = None
+            print(f"{count}/{total_count} - {value},  - NA")
 
+        one_time = time.perf_counter()
+        global estimate
+        if count == 1:
+            estimate = (one_time - start_time) * total_count
+            print(f"Estimated time : {estimate / 60:.1f},minutes")
+        else:
+            remaining_time = estimate - (one_time - start_time)
+            print(f"Remaining time : {remaining_time / 60:.1f},minutes")
     return df
 
 
@@ -87,6 +110,8 @@ def main():
         # Saving the modified DataFrame to a new Excel file
         df.to_excel(output_file_name, index=False)  # Output file name
         print(f"Saved to {output_file_name}")
+    else:
+        print("No 8 digit number found")
 
 
 if __name__ == "__main__":

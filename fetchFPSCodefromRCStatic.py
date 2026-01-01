@@ -32,38 +32,36 @@ def process_eight_digit_numbers(df, cells):
     for index, col, value in cells:
         # 1) Copy the 8-digit number to clipboard
         count += 1
-        print(f"S.No {count}/{total_count}", end=" ")
-
         pyperclip.copy(value)
         # 2) Open a website (URL needs to be specified)
-        web_url = (
-            "https://epos.mp.gov.in/RC_Mobile_Int.jsp"  # Change to the desired URL
-        )
-        pyautogui.hotkey("ctrl", "l")  # Focus address bar
-        time.sleep(0.2)  # Wait for a second
-        pyautogui.write(web_url)
-        pyautogui.press("enter")
-
-        # Wait for the page to load (you may need to adjust this)
-        time.sleep(2)
-        pyautogui.click(x=930, y=332)  # Replace with actual coordinates
+        # web_url = (
+        #     " https://epos.mp.gov.in/SRC_Trans_Int.jsp"  # Change to the desired URL
+        # )
+        # pyautogui.hotkey("ctrl", "l")  # Focus address bar
+        # time.sleep(0.2)  # Wait for a second
+        # pyautogui.write(web_url)
+        # pyautogui.press("enter")
+        #
+        # # Wait for the page to load (you may need to adjust this)
         time.sleep(0.2)
-        pyautogui.click(x=930, y=332)  # Replace with actual coordinates
+        pyautogui.click(x=1042, y=311)  # Replace with actual coordinates
         # 3) Paste value in a search field using pyautogui
+        time.sleep(0.2)
+        pyautogui.click(x=1042, y=311)  # Replace with actual coordinates
         time.sleep(0.2)
         pyautogui.hotkey("ctrl", "v")
         time.sleep(0.3)
         # pyautogui.write(value)
 
         # 4) Click on the submit button (coordinates need to be adjusted)
-        pyautogui.click(x=1122, y=331)  # Replace with actual coordinates
+        pyautogui.click(x=1235, y=315)  # Replace with actual coordinates
 
         # 5) Wait for 2 seconds
         time.sleep(2)
         pyautogui.click(x=303, y=747)
         # 6) Drag to select the text
-        pyautogui.hotkey("ctrl", "a")
-        time.sleep(0.5)
+        pyautogui.drag(623, 227, duration=0.5)  # Drag as needed
+
         # 7) Copy that text
         pyautogui.hotkey("ctrl", "c")
 
@@ -71,17 +69,15 @@ def process_eight_digit_numbers(df, cells):
         time.sleep(0.5)
         copied_text = pyperclip.paste()
 
-        # 9) Find a 10-digit number in that copied text
-        match = re.search(r"\b\d{10}\b", copied_text)
+        # 9) Find a 7-digit number in that copied text
+        match = re.search(r"\b\d{7}\b", copied_text)
         if match:
             found_number = match.group(0)
-            # Add the found digit number into a new column in the DataFrame
-            df.loc[index, "Mobile_Number"] = found_number
+            # Add the found 7-digit number into a new column in the DataFrame
+            df.loc[index, "7_digit_found"] = found_number
             print(f"{count}/{total_count} - {value},  - {found_number}")
-        elif "Details not found for RC" in copied_text:
-            print(f"RC Number {value} is not valid")
         else:
-            df.loc[index, "Mobile_Number"] = None
+            df.loc[index, "7_digit_found"] = None
             print(f"{count}/{total_count} - {value},  - NA")
 
         one_time = time.perf_counter()
@@ -99,16 +95,17 @@ def process_eight_digit_numbers(df, cells):
 def main():
     file_path = sys.argv[1]  # Provide your Excel file path
     df = load_excel(file_path)
-    output_file_name = f"{file_path}mobileExtract.xlsx"
+    output_file_name = f"{file_path.split('.')[0]}RCExtract.xlsx"
     print(output_file_name)
     eight_digit_cells = find_eight_digit_cells(df)
     if eight_digit_cells:
         df = process_eight_digit_numbers(df, eight_digit_cells)
+
         # Saving the modified DataFrame to a new Excel file
         df.to_excel(output_file_name, index=False)  # Output file name
         print(f"Saved to {output_file_name}")
     else:
-        print("no 8 digit found")
+        print("No 8 digit number found")
 
 
 if __name__ == "__main__":
