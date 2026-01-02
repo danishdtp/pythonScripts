@@ -11,7 +11,8 @@ This script reads the copied text from clipboard, finds 10 digit mobile number a
   The script runs instantly even with large text in clipboard
   A sample file is provided to test the script which contains 10 digit number along with expected result.
 
- 
+## 2. Copy Tables from website into excel files multiple times
+
 
 ## 🧑‍💻  Author
 Danish Khan, 
