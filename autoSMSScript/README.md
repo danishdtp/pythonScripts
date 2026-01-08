@@ -19,10 +19,10 @@ After execution of each row, the script will delete that row from excel file, so
 7. Now run script in the terminal as follows :\
   `python autoSMSMessage.py "path\to\excelfile.xlsx"`\
   or\
-  `python3 autoSMSMessage.py "path\to\excelfile.xlsx"`\
+  `python3 autoSMSMessage.py "path\to\excelfile.xlsx"`
 
   If you saved both script and excel file in same folder, open Powershell in same folder then run \
-  `python autoSMSMessage.py excelfile.xlsx`\
+  `python autoSMSMessage.py excelfile.xlsx`
 
 8. The script will create backup of first and then ask you to switch to the program, at this point immediately switch to the Phone link app.
 9. The script will send sms and console will show the how much 
