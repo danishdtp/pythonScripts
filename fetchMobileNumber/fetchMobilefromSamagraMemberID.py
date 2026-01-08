@@ -1,3 +1,4 @@
+# Fetch Mobile number into excel file by searching member ID in a browser window
 import pandas as pd
 import pyperclip
 import pyautogui
@@ -38,9 +39,9 @@ def process_eight_digit_numbers(df, cells, output_file_name):
             # 1) Copy the 8-digit number to clipboard
             count += 1
             print(f"S.No {count}/{total_count}", end=" ")
-            pattern = r"\b\d{8}\b"
-            if "updatedSamagra" in df.columns:
-                dataCheck = df.at[index, "updatedSamagra"]
+            pattern = r"\b\d{10}\b"
+            if "Mobile_Number" in df.columns:
+                dataCheck = df.at[index, "Mobile_Number"]
                 if re.search(pattern, str(dataCheck)) or "id not found" in str(
                     dataCheck
                 ):
@@ -70,28 +71,29 @@ def process_eight_digit_numbers(df, cells, output_file_name):
             time.sleep(0.2)
             pyautogui.hotkey("enter")
             time.sleep(1.5)
-            # 3) Paste value in a search field using pyautogui
-            pyautogui.hotkey("ctrl", "a")
+            pyautogui.click(x=566, y=857)
             time.sleep(0.1)
-            # 7) Copy that text
+            pyautogui.click(x=566, y=857)
+            # 3) Paste value in a search field using pyautogui
+            # pyautogui.hotkey("ctrl", "a")
+            # time.sleep(0.1)
             pyautogui.hotkey("ctrl", "c")
-            # 8) Wait a moment for the clipboard to update
             time.sleep(0.1)
             copied_text = pyperclip.paste()
             pyautogui.click(x=972, y=716)  # Replace with actual coordinates
 
             # 9) Find a 10-digit number in that copied text
-            match = re.search(r"\b\d{8}\b", copied_text)
+            match = re.search(r"\b\d{10}\b", copied_text)
             if match:
                 found_number = match.group(0)
                 # Add the found digit number into a new column in the DataFrame
-                df.loc[index, "updatedSamagra"] = int(found_number)
+                df.loc[index, "Mobile_Number"] = int(found_number)
                 print(f"{count}/{total_count} - {value},  - {found_number}")
             elif "Member details not found for above" in copied_text:
-                df.loc[index, "updatedSamagra"] = "id not found"
+                df.loc[index, "Mobile_Number"] = "id not found"
                 print(f"RC Number {value} is not valid")
             else:
-                df.loc[index, "updatedSamagra"] = None
+                df.loc[index, "Mobile_Number"] = None
                 print(f"{count}/{total_count} - {value},  - NA")
 
             one_time = time.perf_counter()
