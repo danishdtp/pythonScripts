@@ -1,18 +1,34 @@
-# Python Scripts to Automate Simple Tasks
+## Auto SMS Script to automate sending SMS message to 100 mobile numbers from excel file 
 
-My repository of simple python scripts to automate certain tasks.
+The script does following work automatically 
+1. Copies mobile number from the filed "Mobile Number" of excel file
+2. The script then asks user to open Phone Link
+3. In phone link it opens new message, inserts the mobile number
+4. Then it copies custom message to be sent to that mobile number from excel file column name "Message" and send that message to particular apps
+##Caution :
+After execution of each row, the script will delete that row from excel file, so be careful as it may result in your loss of data although backup file is created still repeated wrong use will result in loss of data. So always create manual backup file before running this script. 
+## Execution Steps:
+1. Download the script file and save in a blank folder.
+2. Create an excel file with mobile numbers in `Mobile Number` column header
+3. Create your message on a second column with column name `Message`
+4. It's important to name the column header correctly otherwise script will not run. You can change header names in script as to your liking.
+5. Save the excel file.
+6. The script should 
+7. Now run script in the terminal as follows :
+  `python autoSMSMessage.py "path\to\excelfile.xlsx"`
+  or
+  `python3 autoSMSMessage.py "path\to\excelfile.xlsx"`
 
-## 1. Mobile Number Extract from copied text of clipboard
-This script reads the copied text from clipboard, finds 10 digit mobile number and copies it back into the clipboard. Very useful for repetitive work where we need to find all mobile numbers in a text. The program is provided for windows as well as linux, to use this script 
-  * Copy your text which contains mobile number
-  * Now run the file mobileNumExtract.exe
-  * The script will find all mobiles and copy them into clipboard.
-  * Just paste extracted numbers anywhere you want
-  The script runs instantly even with large text in clipboard
-  A sample file is provided to test the script which contains 10 digit number along with expected result.
+  If you saved both script and excel file in same folder, open Powershell in same folder then run 
+  `python autoSMSMessage.py excelfile.xlsx`
+8. The script will create backup of first and then ask you to switch to the program, at this point immediately switch to the Phone link app.
+9. The script will send sms and console will show the how much 
 
-## 2. Copy Tables from website into excel files multiple times
-
+## Example use cases
+1. You need to send custom invitation SMS with name and details specific to each mobile number, just write it in excel file and run this to send them each
+2. You need to send custom alert to your customers with their name and order details 
+3. You need to send different information to your different colleagues regarding projects.
+The only limit  is your imaginations
 
 ## 🧑‍💻  Author
 Danish Khan, 
