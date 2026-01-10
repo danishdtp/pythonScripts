@@ -25,12 +25,14 @@ def find_8_digit_numbers(text):
 def find_name_of_sheet(text):
     find = re.search(r"Transaction Details for FPS \d{7}\b", text)
     if find:
-        return find.group()
+        message = find.group()
+        fps_code = re.findall(r"\d{7}", message)
+        return fps_code
     else:
         return "no match found"
 
 
-def append_to_sheet2(xlsx_path, values):
+def append_to_sheet2(xlsx_path, values, fps_code):
     xlsx = Path(xlsx_path)
     if not xlsx.exists():
         raise FileNotFoundError(f"File not found: {xlsx_path}")
@@ -44,6 +46,7 @@ def append_to_sheet2(xlsx_path, values):
     start_row = ws.max_row + 1 if any(tuple(ws.iter_rows(min_row=1, max_row=1))) else 1
     for i, val in enumerate(values, start=start_row):
         ws.cell(row=i, column=1, value=val)
+        ws.cell(row=i, column=2, value=(fps_code[0]))
     wb.save(str(xlsx))
 
 
@@ -63,9 +66,10 @@ def main():
     # keep order and remove duplicates while preserving order
     start_time = time.perf_counter()
     seen = set()
-    print(find_name_of_sheet(text))
+    fps_code = find_name_of_sheet(text)
+    print(fps_code)
     unique = [x for x in found if not (x in seen or seen.add(x))]
-    append_to_sheet2(xlsx_path, unique)
+    append_to_sheet2(xlsx_path, unique, fps_code)
     print(f"Appended {len(unique)} value(s) to Sheet2 of {xlsx_path}.")
     end = time.perf_counter()
     duration = -start_time + end
