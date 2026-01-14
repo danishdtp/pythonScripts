@@ -42,7 +42,7 @@ def process_eight_digit_numbers(df, cells, output_file_name):
             pattern = r"\b\d{10}\b"
             if "Mobile_Number" in df.columns:
                 dataCheck = df.at[index, "Mobile_Number"]
-                if re.search(pattern, str(dataCheck)) or "id not found" in str(
+                if re.search(pattern, str(dataCheck)) or str("Mobile not found") in str(
                     dataCheck
                 ):
                     print("Value already exists")
@@ -56,21 +56,21 @@ def process_eight_digit_numbers(df, cells, output_file_name):
             time.sleep(0.2)
             web_url = "https://csmsmpscsc.mp.gov.in/rationmitra/EBS/RCMS/AddMember.aspx"  # Change to the desired URL
             pyautogui.hotkey("ctrl", "l")  # Focus address bar
-            time.sleep(0.2)  # Wait for a second
+            time.sleep(0.3)  # Wait for a second
             pyautogui.write(web_url)
             pyautogui.press("enter")
 
             # Wait for the page to load (you may need to adjust this)
             time.sleep(1.5)
             pyautogui.click(x=1065, y=512)  # Replace with actual coordinates
-            time.sleep(0.1)
+            time.sleep(0.2)
             pyautogui.hotkey("ctrl", "v")
             pyautogui.hotkey("tab")
-            time.sleep(1.2)
+            time.sleep(1.5)
             pyautogui.hotkey("tab")
             time.sleep(0.2)
             pyautogui.hotkey("enter")
-            time.sleep(1.5)
+            time.sleep(2.5)
             pyautogui.click(x=566, y=857)
             time.sleep(0.1)
             pyautogui.click(x=566, y=857)
@@ -78,7 +78,7 @@ def process_eight_digit_numbers(df, cells, output_file_name):
             # pyautogui.hotkey("ctrl", "a")
             # time.sleep(0.1)
             pyautogui.hotkey("ctrl", "c")
-            time.sleep(0.1)
+            time.sleep(0.2)
             copied_text = pyperclip.paste()
             pyautogui.click(x=972, y=716)  # Replace with actual coordinates
 
@@ -89,8 +89,8 @@ def process_eight_digit_numbers(df, cells, output_file_name):
                 # Add the found digit number into a new column in the DataFrame
                 df.loc[index, "Mobile_Number"] = int(found_number)
                 print(f"{count}/{total_count} - {value},  - {found_number}")
-            elif "Member details not found for above" in copied_text:
-                df.loc[index, "Mobile_Number"] = "id not found"
+            elif str(0) in copied_text:
+                df.loc[index, "Mobile_Number"] = str("Mobile not found")
                 print(f"RC Number {value} is not valid")
             else:
                 df.loc[index, "Mobile_Number"] = None

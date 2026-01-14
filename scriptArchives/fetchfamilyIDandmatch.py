@@ -75,7 +75,8 @@ def process_eight_digit_numbers(df, cells, output_file_name):
     total_count = len(df)
     print("Total : ", total_count)
     count = 0
-    print("Script starting in 1 seconds switch to browser")
+    start_time = time.perf_counter()
+    print("Script starting in 2 seconds switch to browser")
     time.sleep(1)
     global estimate
 
@@ -91,7 +92,7 @@ def process_eight_digit_numbers(df, cells, output_file_name):
         pyautogui.hotkey("tab")
         time.sleep(0.2)
         pyautogui.hotkey("enter")
-        text = value
+        text = "Enter characters being displayed in above image"
         for i in range(30):
             time.sleep(0.5)
             # 3) Paste value in a search field using pyautogui
@@ -115,24 +116,21 @@ def process_eight_digit_numbers(df, cells, output_file_name):
         for index, col, value in cells:
             # 1) Copy the 8-digit number to clipboard
             count += 1
-            memCheck = pyperclip.paste()
             print(f"S.No {count}/{total_count}", end=" ")
             pattern = r"\b\d{8}\b"
             if "updatedSamagra" in df.columns:
                 dataCheck = df.at[index, "updatedSamagra"]
-                if re.search(pattern, str(dataCheck)) or "ID not found" in str(
+                if re.search(pattern, str(dataCheck)) or "id not found" in str(
                     dataCheck
                 ):
                     print("Value already exists")
+                    if count == 1:
+                        estimate = 1
                     continue
             pyperclip.copy(value)
             check = "start"
             for i in range(60):
-                if "Member details not found for above request" in memCheck:
-                    pyautogui.click(x=963, y=728)
-                    break
-
-                elif "Enter characters being displayed in above image" not in check:
+                if "Enter characters being displayed in above image" not in check:
                     if i == 30 or i == 0:
                         time.sleep(0.2)  # Wait for a second
                         web_url = "https://csmsmpscsc.mp.gov.in/rationmitra/EBS/RCMS/AddMember.aspx"  # Change to the desired URL
@@ -155,40 +153,10 @@ def process_eight_digit_numbers(df, cells, output_file_name):
                 "Please correct/select/enter proper data highlighting" in copied_text
                 or "Wrong Captcha Code, Please enter Correct Captcha Code"
                 in copied_text
-                or "Invalid Data" in copied_text
                 or "Enter Valid Member ID!" in copied_text
             ):
                 pyautogui.click(x=963, y=728)
                 copied_text = clicking_Function(value)
-                while (
-                    "Enter characters being displayed in above image" in copied_text
-                    or "Please correct/select/enter proper data highlighting"
-                    not in copied_text
-                    or "Wrong Captcha Code, Please enter Correct Captcha Code"
-                    not in copied_text
-                    or "Invalid Data" not in copied_text
-                    or "Enter Valid Member ID!" not in copied_text
-                ):
-                    time.sleep(1)
-                    pyautogui.hotkey("ctrl", "a")
-                    time.sleep(0.1)
-                    pyautogui.hotkey("ctrl", "c")
-                    time.sleep(0.1)
-                    copied_text = pyperclip.paste()
-                    if (
-                        "Please correct/select/enter proper data highlighting"
-                        in copied_text
-                        or "Wrong Captcha Code, Please enter Correct Captcha Code"
-                        in copied_text
-                        or "Invalid Data" in copied_text
-                        or "Warning" in copied_text
-                        or "Invalid" in copied_text
-                        or "Enter Valid Member ID!" in copied_text
-                        or "Enter characters being displayed in above image"
-                        not in copied_text
-                    ):
-                        break
-
             match = re.search(r"\b\d{8}\b", copied_text)
             if match:
                 found_number = match.group(0)
@@ -198,7 +166,6 @@ def process_eight_digit_numbers(df, cells, output_file_name):
 
             elif "Member details not found for above" in copied_text:
                 df.loc[index, "updatedSamagra"] = "ID not found"
-                pyperclip.copy(copied_text)
                 print(f"RC Number {value} is not valid")
 
             else:
