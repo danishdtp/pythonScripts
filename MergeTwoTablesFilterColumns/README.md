@@ -3,7 +3,8 @@
 
 ## 🛠️ Description
 The script is created to match two large csv files and find the rows in the second file not available in first file.\
-The script is created using dask and pyarrow libraries of script to handle large data on a low end hardware - home pc or laptop. The script has been tested with 2 GBs of csv file and works instantly.\
+The script is created using various libraries pandas, dask and polars libraries of script to handle large data on a low end hardware - home pc or laptop. The script has been tested with 2 GBs of csv file and works instantly.\
+On comparison, I have found that Polars dataframe was much superior and worked much faster.
 
 ## 🛠️Requirements
 
