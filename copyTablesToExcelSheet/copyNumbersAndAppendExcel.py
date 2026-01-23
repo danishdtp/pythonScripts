@@ -32,8 +32,39 @@ def find_name_of_sheet(text):
     else:
         return "no match found"
 
+from openpyxl import load_workbook
+from pathlib import Path
 
 def append_to_sheet2(xlsx_path, values, fps_code):
+    xlsx = Path(xlsx_path)
+    if not xlsx.exists():
+        raise FileNotFoundError(f"File not found: {xlsx_path}")
+    
+    # Use read_only=False (default) but keep data_only=True if you don't need formulas
+    wb = load_workbook(filename=str(xlsx))
+    
+    if "Sheet2" in wb.sheetnames:
+        ws = wb["Sheet2"]
+    else:
+        ws = wb.create_sheet("Sheet2")
+
+    # 1. Faster 'is_empty' check
+    # Instead of tuple(iter_rows), just check if A1 has a value
+    is_empty = ws.max_row == 1 and ws['A1'].value is None
+
+    # 2. Prepare data in bulk
+    # Converting values here is faster than doing it inside the Excel write loop
+    fps_val = int(fps_code[0])
+    
+    # 3. Use .append() for speed
+    # This is much faster than ws.cell(row=i, column=j)
+    for val in values:
+        ws.append([fps_val, int(val)])
+
+    wb.save(str(xlsx))
+    wb.close() # Always close to free up memory
+    
+def append_to_sheet(xlsx_path, values, fps_code):
     xlsx = Path(xlsx_path)
     if not xlsx.exists():
         raise FileNotFoundError(f"File not found: {xlsx_path}")
@@ -43,7 +74,7 @@ def append_to_sheet2(xlsx_path, values, fps_code):
         ws = wb["Sheet2"]
     else:
         ws = wb.create_sheet("Sheet2")
-    # find first empty row after existing data (append)
+# 1. Prepare your data in memory as a list of tuples
     start_row = ws.max_row + 1 if any(tuple(ws.iter_rows(min_row=1, max_row=1))) else 1
     for i, val in enumerate(values, start=start_row):
         ws.cell(row=i, column=2, value=int(val))
