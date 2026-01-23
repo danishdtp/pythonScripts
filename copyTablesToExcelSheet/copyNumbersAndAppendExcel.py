@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 import time
 import pyperclip
+import pyautogui
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
@@ -45,16 +46,17 @@ def append_to_sheet2(xlsx_path, values, fps_code):
     # find first empty row after existing data (append)
     start_row = ws.max_row + 1 if any(tuple(ws.iter_rows(min_row=1, max_row=1))) else 1
     for i, val in enumerate(values, start=start_row):
-        ws.cell(row=i, column=1, value=val)
-        ws.cell(row=i, column=2, value=(fps_code[0]))
+        ws.cell(row=i, column=2, value=int(val))
+        ws.cell(row=i, column=1, value=int(fps_code[0]))
     wb.save(str(xlsx))
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python append_8digit_to_sheet2.py /path/to/file.xlsx")
-        sys.exit(1)
-    xlsx_path = sys.argv[1]
+   # if len(sys.argv) != 2:
+   #     print("Usage: python append_8digit_to_sheet2.py /path/to/file.xlsx")
+   #     sys.exit(1)
+   # xlsx_path = sys.argv[1]
+    xlsx_path = r"Shesh parivar suchi January 2026.xlsx"
     text = pyperclip.paste()
     if not text:
         print("Clipboard is empty.")
@@ -68,12 +70,21 @@ def main():
     seen = set()
     fps_code = find_name_of_sheet(text)
     print(fps_code)
+    pyautogui.click(x=574, y=557)
+    time.sleep(.5)
+    pyautogui.hotkey("home",presses=2)
+    time.sleep(.5)
+    pyautogui.press('pagedown', presses=3)
+   
+    pyautogui.press('pagedown',int(abs(int(fps_code[0]))%100/20-1))
+    
     unique = [x for x in found if not (x in seen or seen.add(x))]
     append_to_sheet2(xlsx_path, unique, fps_code)
     print(f"Appended {len(unique)} value(s) to Sheet2 of {xlsx_path}.")
     end = time.perf_counter()
     duration = -start_time + end
     print(f"Time taken  : {duration:.1f} seconds")
+    
 
 
 if __name__ == "__main__":
