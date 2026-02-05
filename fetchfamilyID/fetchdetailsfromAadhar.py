@@ -5,6 +5,7 @@ import time
 import re
 import sys
 import os
+import excelutils
 
 
 # Step 1: Load the Excel file into a DataFrame
@@ -97,16 +98,13 @@ def process_12digit_number(df, cells, output_file_name):
                 # df.loc[index, "Mobile_Number"] = None
                 print(f"{count}/{total_count} - {value},  - NA")
 
-            one_time = time.perf_counter()
             df.to_excel(output_file_name, index=False)
     except KeyboardInterrupt:
         print("Exiting")
-        df.to_excel(output_file_name, index=False)
-        sys.exit()
+        return df
     except pyautogui.FailSafeException:
         print("Exiting Failsafe")
-        df.to_excel(output_file_name, index=False)
-        sys.exit()
+        return df
     return df
 
 
@@ -122,6 +120,7 @@ def main():
         df = process_12digit_number(df, twelve_digit_cells, output_file_name)
         # Saving the modified DataFrame to a new Excel file
         df.to_excel(output_file_name, index=False)  # Output file name
+        excelutils.format_file(output_file_name)
         print(f"Saved to {output_file_name}")
     else:
         print("no digit found")
